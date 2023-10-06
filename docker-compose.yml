@@ -1,0 +1,83 @@
+version: '3'
+
+networks:
+  laravel:
+
+services:
+  app:
+    build:
+      context: ./dockerfiles
+      dockerfile: nginx.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    container_name: "lar-app"
+    ports:
+      - "80:80"
+    volumes:
+      - ./laravel-app/:/var/www/html
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - laravel
+  php:
+    build:
+      context: ./dockerfiles
+      dockerfile: php.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    ports:
+      - "9000:9000"
+    container_name: "lar-php"
+    volumes:
+      - ./laravel-app/:/var/www/html
+    networks:
+      - laravel
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    container_name: "lar-mysql"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - laravel
+  pma:
+    image: phpmyadmin:5.1
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=${DB_HOST}
+      - PMA_USER=${DB_USERNAME}
+      - PMA_PASSWORD=${DB_PASSWORD}
+      - PMA_PORT=${DB_PORT}
+    depends_on:
+      - mysql
+    ports:
+      - "8888:80"
+    networks:
+      - laravel
+  artisan:
+    build:
+      context: ./dockerfiles
+      dockerfile: php.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    volumes:
+      - ./laravel-app/:/var/www/html:delegated
+    depends_on:
+      - mysql
+      - php
+    container_name: "lar-artisan"
+    entrypoint: [ 'php', '/var/www/html/artisan' ]
+    networks:
+      - laravel
