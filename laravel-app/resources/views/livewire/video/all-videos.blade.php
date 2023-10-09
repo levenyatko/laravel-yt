@@ -17,7 +17,7 @@
                                             {{$video->title}}
                                         </h5>
                                         @if( ! $video->processed )
-                                            <p>(<i class="material-icons" style="font-size: 10px">hourglass_bottom</i>Processing...)</p>
+                                            <p>(<i class="material-symbols-outlined" style="font-size: 10px">hourglass_bottom</i>Processing...)</p>
                                         @endif
                                         <p class="text-truncate">{{$video->description}}</p>
                                     </div>
@@ -33,7 +33,7 @@
                                                class="btn btn-light btn-sm">Edit</a>
                                             <a wire:click.prevent="delete('{{$video->uid}}')"
                                                wire:loading.attr="disabled"
-                                               class="btn btn-danger btn-sm">Delete</a>
+                                               class="btn btn-delete btn-sm">Delete</a>
                                         </div>
                                     @endif
 

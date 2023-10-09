@@ -44,6 +44,7 @@ class CreateVideo extends Component
             'uid'         => uniqid(true),
             'title'       => 'untitled',
             'description' => '',
+            'duration'    => '',
             'visibility'  => Video::VISIBILITY_DEFAULT,
             'path'        => explode('/', $path)[1]
         ]);

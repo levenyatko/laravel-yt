@@ -52,3 +52,51 @@
 .comment-form-control:focus {
     outline: none;
 }
+
+.search-bar-wrapper {
+    flex-grow: 3;
+}
+
+.search-bar-wrapper form {
+    width: 70%;
+}
+
+.button-search {
+    margin-left: -48px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.button-search i{
+    vertical-align: middle;
+}
+
+.btn-delete {
+    color: var(--bs-red);
+    border: 1px solid var(--bs-red);
+}
+
+.btn-light {
+    color: var(--bs-blue);
+    border: 1px solid var(--bs-blue);
+}
+
+.card-horizontal {
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.channel-image {
+    width: 40px;
+    height: 40px;
+    margin: 0 10px 10px 0;
+}
+
+.channel-image-big {
+    width: 60px;
+    height: 60px;
+}
+
+.img-thumbnail {
+    border: none;
+}

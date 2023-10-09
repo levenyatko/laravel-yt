@@ -50,6 +50,11 @@ class EditVideo extends Component
     {
         $this->validate();
 
+        if ( 'public' == $this->visibility && ! $this->video->processed ) {
+            session()->flash('message', 'You can\'t puslish video before processing is finished.');
+            return;
+        }
+
         $this->video->update([
             'title'       => $this->title,
             'description' => $this->description,

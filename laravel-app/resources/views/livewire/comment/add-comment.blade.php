@@ -1,6 +1,6 @@
 <div>
     <div class="d-flex align-items-center">
-        <img src="{{ asset('/storage/' .  auth()->user()->channel->image)}}" class="rounded-img" style="height: 40px;">
+        <img src="{{ Storage::url( auth()->user()->channel->image )}}" class="rounded-circle m-1" style="height: 40px;">
 
         <input type="text" wire:model="body" class="my-2 comment-form-control" placeholder="Add a public comment...">
     </div>

@@ -1,9 +1,13 @@
 <div>
     <div class="d-flex align-content-center">
         <div class="d-flex align-items-center">
-            <img src="{{ asset( 'storage/' . $channel->image ) }}" class="rounded-circle m-1" style="max-width: 60px">
+            <img src="{{ Storage::url( $channel->image ) }}" class="rounded-circle channel-image channel-image-big">
             <div class="m-1">
-                <h5>{{$channel->name}}</h5>
+                <h5>
+                    <a href="{{ route('channel.index', ['channel' => $channel]) }}" class="gray-text">
+                        {{$channel->name}}
+                    </a>
+                </h5>
                 <p class="gray-text text-sm m-0">{{$channel->subscribers()}} subscriber(s)</p>
             </div>
         </div>

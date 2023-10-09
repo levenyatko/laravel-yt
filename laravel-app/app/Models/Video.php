@@ -83,4 +83,8 @@ class Video extends Model
         return  $this->hasMany(Comment::class)->count();
     }
 
+    public function scopePublished(Builder $query): void
+    {
+        $query->where('visibility', 'publish');
+    }
 }

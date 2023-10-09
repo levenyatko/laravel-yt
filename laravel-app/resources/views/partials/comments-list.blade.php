@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-1 mr-3">
                     <img class="rounded-circle"
-                         src="{{ asset('/storage/' . $comment->user->channel->image)}}"
+                         src="{{ Storage::url( $comment->user->channel->image )}}"
                          alt="User avatar"
                          style="max-width: 60px"
                     >
