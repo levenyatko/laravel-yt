@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Channel;
 
+use App\DTOs\Channel\EditChannelDTO;
 use App\Models\Channel;
+use App\Services\ChannelService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
 use Livewire\WithFileUploads;
@@ -15,6 +16,8 @@ class EditChannel extends Component
     use AuthorizesRequests;
     use WithFileUploads;
 
+    private ChannelService $service;
+
     public Channel $channel;
 
     public $name;
@@ -24,6 +27,11 @@ class EditChannel extends Component
     public $description;
 
     public $image;
+
+    public function boot(ChannelService $service)
+    {
+        $this->service = $service;
+    }
 
     protected function rules()
     {
@@ -68,34 +76,15 @@ class EditChannel extends Component
 
         $this->validate();
 
-        $channel_data = [
-            'name'  => $this->name,
-            'slug'  => $this->slug,
-            'description'  => $this->description,
-        ];
-
-        if ( $this->image ) {
-            $images_dir_path = storage_path( 'app/public/' );
-
-            // remove old image
-            if ( $this->channel->image ) {
-                $old_path = $images_dir_path . $this->channel->image;
-                if( File::exists( $old_path ) ) {
-                    File::delete( $old_path );
-                }
-            }
-
-            if ( ! File::isDirectory($images_dir_path) ) {
-                File::makeDirectory($images_dir_path, 0777, true, true);
-            }
-
-            $img_name = sprintf('images/logo-%s.%s', $this->channel->uid, $this->image->getClientOriginalExtension());
-
-            Image::make( $this->image->getRealPath() )->resize(100, 100)->save( $images_dir_path . $img_name );
-            $channel_data['image'] = $img_name;
-        }
-
-        $this->channel->update($channel_data);
+        $this->service->update(
+            $this->channel,
+            new EditChannelDTO(
+                $this->name,
+                $this->slug,
+                $this->description,
+                $this->image,
+            )
+        );
 
         session()->flash('message', 'Channel updated');
 

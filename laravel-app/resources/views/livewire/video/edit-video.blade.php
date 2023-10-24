@@ -42,8 +42,8 @@
                             <div class="form-group mb-2">
                                 <label for="visibility">Visibility</label>
                                 <select wire:model="visibility" class="form-control">
-                                    @foreach(\App\Models\Video::VISIBILITY as $vkey => $vvalue)
-                                        <option value="{{ $vkey }}">{{ $vvalue }}</option>
+                                    @foreach(\App\Enums\VideoVisibility::cases() as $visibility)
+                                        <option value="{{ $visibility->value }}">{{ $visibility->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('video.visibility')

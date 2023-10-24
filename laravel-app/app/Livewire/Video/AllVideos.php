@@ -4,8 +4,8 @@ namespace App\Livewire\Video;
 
 use App\Models\Channel;
 use App\Models\Video;
+use App\Services\VideoService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,7 +16,14 @@ class AllVideos extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    private VideoService $service;
+
     public $channel;
+
+    public function boot(VideoService $service)
+    {
+        $this->service = $service;
+    }
 
     public function mount(Channel $channel)
     {
@@ -35,12 +42,7 @@ class AllVideos extends Component
         //check if user is allowed to delete the video
         $this->authorize('delete', $video);
 
-        //delete folder
-        $deleted = Storage::disk('videos')->deleteDirectory($video->uid);
-
-        if ($deleted) {
-            $video->delete();
-        }
+        $this->service->delete( $video );
 
         return back();
     }

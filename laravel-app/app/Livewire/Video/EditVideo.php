@@ -2,12 +2,18 @@
 
 namespace App\Livewire\Video;
 
+use App\DTOs\Video\EditVideoDTO;
+use App\Enums\VideoVisibility;
 use App\Models\Channel;
 use App\Models\Video;
+use App\Services\VideoService;
+use Illuminate\Validation\Rules\Enum;
 use Livewire\Component;
 
 class EditVideo extends Component
 {
+    private VideoService $service;
+
     public Channel $channel;
 
     public Video $video;
@@ -18,15 +24,17 @@ class EditVideo extends Component
 
     public $visibility;
 
+    public function boot(VideoService $service)
+    {
+        $this->service = $service;
+    }
+
     protected function rules()
     {
-        $allowed_visibility = array_keys( Video::VISIBILITY );
-        $allowed_visibility = implode(',', $allowed_visibility);
-
         return [
             'title'       => 'required|max:255',
             'description' => 'nullable|max:1000',
-            'visibility'  => 'required|in:' . $allowed_visibility,
+            'visibility'  => [ 'required', new Enum( VideoVisibility::class ) ],
         ];
     }
 
@@ -50,16 +58,19 @@ class EditVideo extends Component
     {
         $this->validate();
 
-        if ( 'public' == $this->visibility && ! $this->video->processed ) {
+        if ( VideoVisibility::Public == $this->visibility && ! $this->video->processed ) {
             session()->flash('message', 'You can\'t puslish video before processing is finished.');
             return;
         }
 
-        $this->video->update([
-            'title'       => $this->title,
-            'description' => $this->description,
-            'visibility'  => $this->visibility
-        ]);
+        $this->service->update(
+            $this->video,
+            new EditVideoDTO(
+                title      : $this->title,
+                description: $this->description,
+                visibility : $this->visibility
+            )
+        );
 
         session()->flash('message', 'Video was updated');
     }

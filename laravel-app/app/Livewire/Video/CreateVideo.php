@@ -2,16 +2,20 @@
 
 namespace App\Livewire\Video;
 
+use App\DTOs\Video\CreateVideoDTO;
 use App\Jobs\ConvertVideoForStreaming;
 use App\Jobs\CreateThumbnailFromVideo;
-use Livewire\WithFileUploads;
 use App\Models\Channel;
 use App\Models\Video;
+use App\Services\VideoService;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class CreateVideo extends Component
 {
     use WithFileUploads;
+
+    private VideoService $service;
 
     public Channel $channel;
 
@@ -22,6 +26,11 @@ class CreateVideo extends Component
     protected $rules = [
         'videoFile' => 'required|mimes:mp4|max:1228800'
     ];
+
+    public function boot(VideoService $service)
+    {
+        $this->service = $service;
+    }
 
     public function mount(Channel $channel)
     {
@@ -40,14 +49,10 @@ class CreateVideo extends Component
 
         $path = $this->videoFile->store('videos-temp');
 
-        $this->video = $this->channel->videos()->create([
-            'uid'         => uniqid(true),
-            'title'       => 'untitled',
-            'description' => '',
-            'duration'    => '',
-            'visibility'  => Video::VISIBILITY_DEFAULT,
-            'path'        => explode('/', $path)[1]
-        ]);
+        $this->video = $this->service->store(
+            $this->channel->videos(),
+            CreateVideoDTO::createWithDefaults( explode('/', $path)[1] )
+        );
 
         //dispatch jobs
         CreateThumbnailFromVideo::dispatch($this->video);

@@ -2,11 +2,15 @@
 
 namespace App\Livewire\Comment;
 
+use App\DTOs\Comment\CreateCommentDTO;
 use App\Models\Video;
+use App\Services\CommentService;
 use Livewire\Component;
 
 class AddComment extends Component
 {
+    private CommentService $service;
+
     public Video $video;
 
     public $body;
@@ -16,6 +20,11 @@ class AddComment extends Component
     protected $rules = [
         'body' => 'required|min:200|max:600'
     ];
+
+    public function boot(CommentService $service)
+    {
+        $this->service = $service;
+    }
 
     public function mount(Video $video, $col)
     {
@@ -30,11 +39,10 @@ class AddComment extends Component
 
     public function addComment()
     {
-        auth()->user()->comments()->create([
-            'body'     => $this->body,
-            'video_id' => $this->video->id,
-            'parent_id' => $this->col,
-        ]);
+        $this->service->store(
+            auth()->user()->comments(),
+            new CreateCommentDTO($this->video->id, $this->body, $this->col)
+        );
 
         $this->resetForm();
 

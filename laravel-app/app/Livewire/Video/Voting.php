@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Video;
 
+use App\DTOs\Vote\StoreVoteDTO;
 use App\Models\Video;
-use App\Models\Vote;
+use App\Services\VoteService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Voting extends Component
 {
+    private VoteService $service;
+
     public $video;
 
     public $likesCount;
@@ -21,21 +24,24 @@ class Voting extends Component
 
     protected $listeners = ['load_values' => '$refresh'];
 
+    public function boot(VoteService $service)
+    {
+        $this->service = $service;
+    }
+
     public function mount(Video $video)
     {
         $this->video = $video;
 
         $this->updateVotesCount();
 
+        $this->likeActive = false;
+        $this->dislikeActive = false;
+
         if ( $this->video->doesUserLikedVideo() ) {
-            $this->likeActive = true;
-            $this->dislikeActive = false;
+            $this->setLikeActive();
         } elseif ( $this->video->doesUserDislikeVideo() ) {
-            $this->likeActive = false;
-            $this->dislikeActive = true;
-        } else {
-            $this->likeActive = false;
-            $this->dislikeActive = false;
+            $this->setDislikeActive();
         }
     }
 
@@ -51,18 +57,15 @@ class Voting extends Component
             return redirect('/login');
         }
 
-        Vote::updateOrCreate(
-            [
-                'video_id' => $this->video->id,
-                'user_id' => auth()->id()
-            ],
-            [
-                'is_positive' => true,
-            ]
+        $this->service->store(
+            new StoreVoteDTO(
+                video_id : $this->video->id,
+                user_id : auth()->id(),
+                is_positive : true,
+            )
         );
 
-        $this->likeActive = true;
-        $this->dislikeActive = false;
+        $this->setLikeActive();
 
         $this->updateVotesCount();
 
@@ -75,27 +78,36 @@ class Voting extends Component
             return redirect('/login');
         }
 
-        Vote::updateOrCreate(
-            [
-                'video_id' => $this->video->id,
-                'user_id' => auth()->id()
-            ],
-            [
-                'is_positive' => false,
-            ]
+        $this->service->store(
+            new StoreVoteDTO(
+                video_id : $this->video->id,
+                user_id : auth()->id(),
+                is_positive : false,
+            )
         );
 
-        $this->likeActive = false;
-        $this->dislikeActive = true;
+        $this->setDislikeActive();
 
         $this->updateVotesCount();
 
         $this->dispatch('load_values');
     }
 
+    private function setLikeActive()
+    {
+        $this->likeActive    = true;
+        $this->dislikeActive = false;
+    }
+
+    private function setDislikeActive()
+    {
+        $this->likeActive    = false;
+        $this->dislikeActive = true;
+    }
+
     private function updateVotesCount()
     {
-        $this->likesCount = $this->video->votes->where('is_positive', true)->count();
+        $this->likesCount    = $this->video->votes->where('is_positive', true)->count();
         $this->dislikesCount = $this->video->votes->where('is_positive', false)->count();
     }
 }

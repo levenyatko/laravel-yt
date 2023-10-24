@@ -2,16 +2,24 @@
 
 namespace App\Livewire\Video;
 
+use App\DTOs\VideoView\VideoViewDTO;
 use App\Models\Video;
-use App\Models\VideoViews;
+use App\Services\VideoViewService;
 use Carbon\Carbon;
 use Livewire\Component;
 
 class WatchVideo extends Component
 {
+    private VideoViewService $service;
+
     public $video;
 
     protected $listeners = ['VideoViewed' => 'countView'];
+
+    public function boot(VideoViewService $service)
+    {
+        $this->service = $service;
+    }
 
     public function mount(Video $video)
     {
@@ -26,14 +34,6 @@ class WatchVideo extends Component
 
     public function countView()
     {
-        VideoViews::updateOrCreate(
-            [
-                'video_id' => $this->video->id,
-                'period'   => Carbon::now()->toDateString(),
-            ],
-            [
-                'views' => \DB::raw('views + 1')
-            ]
-        );
+        $this->service->increase( new VideoViewDTO( $this->video->id, Carbon::now()->toDateString() ) );
     }
 }
