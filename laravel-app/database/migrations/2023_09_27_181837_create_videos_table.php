@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Video;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $visibility_items = array_keys( Video::VISIBILITY );
-
-        Schema::create('videos', function (Blueprint $table) use ($visibility_items) {
+        Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('channel_id');
             $table->string('uid');
             $table->string('title');
             $table->text('description')->nullable();
             $table->text('path')->nullable();
-            $table->enum('visibility', $visibility_items)->default('private');
+            $table->string('visibility', 50)->default('private');
             $table->string('processed_file')->nullable();
             $table->string('processed_percentage')->nullable();
             $table->boolean('processed')->default(false);

@@ -28,6 +28,8 @@ class EditChannel extends Component
 
     public $image;
 
+    public $oldImage;
+
     public function boot(ChannelService $service)
     {
         $this->service = $service;
@@ -56,13 +58,14 @@ class EditChannel extends Component
         ];
     }
 
-    public function mountChannel(Channel $channel)
+    public function mount(Channel $channel)
     {
         $this->channel = $channel;
 
-        $this->fill(
-            $channel->only('title', 'slug', 'description'),
-        );
+        $this->name = $this->channel->name;
+        $this->slug = $this->channel->slug;
+        $this->description = $this->channel->description;
+        $this->oldImage = $this->channel->image;
     }
 
     public function render()

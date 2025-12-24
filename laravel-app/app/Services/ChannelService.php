@@ -10,7 +10,8 @@ namespace App\Services;
 use App\DTOs\Channel\EditChannelDTO;
 use App\Models\Channel;
 use Illuminate\Support\Facades\File;
-use Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ChannelService
 {
@@ -34,9 +35,16 @@ class ChannelService
                 File::makeDirectory($images_dir_path, 0777, true, true);
             }
 
+            $manager = new ImageManager(new Driver());
+
+            $image = $manager->read($dto->image);
+
+            $image->resize(100, 100);
+
             $img_name = sprintf('images/logo-%s.%s', $channel->uid, $dto->image->getClientOriginalExtension());
 
-            Image::make( $dto->image->getRealPath() )->resize(100, 100)->save( $images_dir_path . $img_name );
+            $image->save( public_path($img_name) );
+
             $channel_data['image'] = $img_name;
         }
 

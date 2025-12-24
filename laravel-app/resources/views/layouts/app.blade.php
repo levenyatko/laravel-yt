@@ -70,6 +70,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('channel.index', ['channel' => Auth::user()->channel]) }}">
+                                        {{ __('My channel') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('channel.view', ['channel' => Auth::user()->channel]) }}">
                                         {{ __('My videos') }}
                                     </a>

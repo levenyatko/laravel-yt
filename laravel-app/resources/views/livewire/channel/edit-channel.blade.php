@@ -32,6 +32,9 @@
         </div>
         <div class="form-group mb-2">
             <label for="image">Image</label>
+            @if ($oldImage)
+                <img src="{{ $oldImage }}" alt="channel image" class="img-preview">
+            @endif
             <input type="file" wire:model="image" id="image" class="form-control">
             @if($image)
                 <img src="{{ $image->temporaryUrl() }}" alt="preview" class="img-preview">

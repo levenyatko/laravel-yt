@@ -1,7 +1,7 @@
 <div>
     <div class="d-flex align-content-center">
         <div class="d-flex align-items-center">
-            <img src="{{ Storage::url( $channel->image ) }}" class="rounded-circle channel-image channel-image-big">
+            <img src="{{ empty($channel->image) ? 'https://i.pravatar.cc/300' : Storage::url( $channel->image ) }}" class="rounded-circle channel-image channel-image-big">
             <div class="m-1">
                 <h5>
                     <a href="{{ route('channel.index', ['channel' => $channel]) }}" class="gray-text">
