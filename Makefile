@@ -1,3 +1,5 @@
+QUEUE_TRIES := 3
+
 build:
 	docker-compose build --no-cache --force-rm
 up:
@@ -5,10 +7,8 @@ up:
 stop:
 	docker-compose stop
 queuework:
-	docker-compose run --rm artisan queue:work --tries=3
+	docker compose exec workspace php artisan queue:work --tries=$(QUEUE_TRIES)
 install:
-	docker-compose run --rm artisan migrate
-	docker-compose run --rm artisan storage:link
-	cd laravel-app
-	npm install && npm run dev
-	#run queue
+	docker compose exec workspace bash
+	php artisan migrate
+	php artisan storage:link
