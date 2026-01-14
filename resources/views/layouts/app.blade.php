@@ -22,63 +22,65 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light justify-content-between bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+        <div class="container">
+            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+                <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="{{ url('/') }}">
+                    <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5949 4.45999C21.5421 4.71353 22.2865 5.45785 22.54 6.40501C22.9982 8.12002 23 11.7004 23 11.7004C23 11.7004 23 15.2807 22.54 16.9957C22.2865 17.9429 21.5421 18.6872 20.5949 18.9407C18.88 19.4007 12 19.4007 12 19.4007C12 19.4007 5.12002 19.4007 3.405 18.9407C2.45785 18.6872 1.71353 17.9429 1.45999 16.9957C1 15.2807 1 11.7004 1 11.7004C1 11.7004 1 8.12002 1.45999 6.40501C1.71353 5.45785 2.45785 4.71353 3.405 4.45999C5.12002 4 12 4 12 4C12 4 18.88 4 20.5949 4.45999ZM15.5134 11.7007L9.79788 15.0003V8.40101L15.5134 11.7007Z" fill="#000000"/>
+                    </svg>
                 </a>
-                <div class="d-flex justify-content-center search-bar-wrapper">
+                <div class="d-flex col-md-5 text-start">
                     {{-- search --}}
-                    <form action="/search" method="GET" class="d-flex">
-                        <input type="text" name="query" id="query" class="form-control mr-sm-2" placeholder="Search" required="required">
-                        <button type="submit" class="btn btn-secondary button-search">
-                            <i class="material-symbols-outlined">search</i>
-                        </button>
+                    <form action="/search" method="GET" class="w-100">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary border" type="submit">
+                                    <i class="material-symbols-outlined">search</i>
+                                </button>
+                            </div>
+                        </div>
                     </form>
                     {{-- search --}}
                 </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav">
-                        <!-- Authentication Links -->
-                        @guest
+                <div class="d-flex align-items-center">
+                    @guest
+                        <ul class="nav justify-content-center mb-md-0">
                             @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
+                                <li><a class="nav-link px-2 link-dark" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                             @endif
 
                             @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <li>
+                                    <a class="nav-link px-2 link-dark" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
-                        @else
-                            <li class="nav-item">
-                                <a href="{{ route('video.create', ['channel' => Auth::user()->channel]) }}" title="Add video" class="nav-link">
-                                    <i class="material-symbols-outlined">video_call</i>
-                                </a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        </ul>
+                    @else
+                        <a href="{{ route('video.create', ['channel' => Auth::user()->channel]) }}" title="Add video" class="btn">
+                            <i class="material-symbols-outlined">video_call</i>
+                        </a>
+                        <div class="flex-shrink-0 dropdown">
+                            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                            </a>
+                            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                                <li>
                                     <a class="dropdown-item" href="{{ route('channel.index', ['channel' => Auth::user()->channel]) }}">
                                         {{ __('My channel') }}
                                     </a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item" href="{{ route('channel.view', ['channel' => Auth::user()->channel]) }}">
                                         {{ __('My videos') }}
                                     </a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item" href="{{ route('channel.edit', ['channel' => Auth::user()->channel]) }}">
                                         {{ __('Edit channel') }}
                                     </a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -88,13 +90,13 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    @endguest
                 </div>
-            </div>
-        </nav>
+            </header>
+        </div>
 
         <main class="py-4">
             @yield('content')

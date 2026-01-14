@@ -1,19 +1,14 @@
-// Body
-$body-bg: #f8fafc;
-
 // Typography
 $font-family-sans-serif: 'Nunito', sans-serif;
 $font-size-base: 0.9rem;
-$line-height-base: 1.6;
+$line-height-base: 1;
 
-$color-grey: #717171;
-$color-red: #FF0000;
+// Colors
+$primary: #f8f8f8;
 
-$hover-bg: #e5e5e5;
+$body-bg: transparent;
+$body-color: #0f0f0f;
 
-$theme-colors: (
-    "primary": #0f0f0f,
-    "secondary": #f2f2f2,
-);
+$btn-bg: $primary;
 
-$border-radius: 18px;
+$link-color: #2b77da;

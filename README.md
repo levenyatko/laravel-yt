@@ -29,11 +29,10 @@ Make sure you have the following installed on your system:
 ```bash
   docker-compose up -d
 ```
-4. Install Laravel Dependencies
+4. Install Laravel Dependencies and build front-end assets
 ```bash
   composer install
-  npm install
-  npm run dev
+  npm install && npm run dev
 ```
 5. Generate applicaiton key, run migrations and publish storage link
 ```bash
@@ -46,10 +45,3 @@ Make sure you have the following installed on your system:
   php artisan queue:work --tries=3
 ```
 7. Access the application http://localhost
-
-## 📚 Resources & External Projects
-
-- **Laravel Docker Examples Project**  
-  🔗 https://github.com/dockersamples/laravel-docker-examples/
-
-  📌 Used to create Docker containers.

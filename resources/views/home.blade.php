@@ -1,23 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
+    <div class="container">
+        <div class="row my-3">
+            @if(!$channels->count())
+                <p>No videos to display.</p>
+            @endif
+            @foreach ($channels as $channelVideos)
+                @foreach ($channelVideos as $video)
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <a href="{{ route('video.watch', $video)}}" class="card-link">
+                            <div class="card mb-4" style="width: 333px; border:none;">
+                                @include('partials.card-video')
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            @endforeach
         </div>
     </div>
-</div>
 @endsection

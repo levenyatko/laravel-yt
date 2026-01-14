@@ -16,24 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    // If logged show wideo from subscribed channels
-    if (Auth::check()) {
-        $channels = Auth::user()->subscribedChannels()->with(['videos' => function ($query) {
-            $query->where('visibility', 'public');
-        }])->get()->pluck('videos');
-    } else {
-        $channels = App\Models\Channel::with(['videos' => function ($query) {
-            $query->where('visibility', 'public');
-        }])->get()->pluck('videos');
-    }
-
-    return view('welcome', compact('channels'));
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function (){
     Route::get('/ch/{channel}/edit', [ChannelController::class, 'edit'])->name('channel.edit');
