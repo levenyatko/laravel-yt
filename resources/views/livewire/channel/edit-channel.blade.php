@@ -2,35 +2,40 @@
     @if( $channel->image )
         <img src="{{ Storage::url( $channel->image ) }}" alt="logo" class="img-preview mb-4">
     @endif
+    @if( session()->has('message') )
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
     <form wire:submit.prevent="update">
-        <div class="form-group mb-2">
+        <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" wire:model="name" id="name" class="form-control">
+            <input type="text" wire:model="name" id="name" class="form-control @error('name') is-invalid @enderror">
             @error('name')
-                <div class="alert alert-danger">
-                    {{ $message }}
-                </div>
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
             @enderror
         </div>
-        <div class="form-group mb-2">
+        <div class="form-group">
             <label for="slug">Slug</label>
-            <input type="text" wire:model="slug" id="slug" class="form-control">
+            <input type="text" wire:model="slug" id="slug" class="form-control @error('slug') is-invalid @enderror">
             @error('slug')
-                <div class="alert alert-danger">
-                    {{ $message }}
-                </div>
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
             @enderror
         </div>
-        <div class="form-group mb-2">
+        <div class="form-group">
             <label for="description">Description</label>
-            <textarea id="description" rows="4" class="form-control" wire:model="description"></textarea>
+            <textarea id="description" rows="4" class="form-control @error('description') is-invalid @enderror" wire:model="description"></textarea>
             @error('description')
-                <div class="alert alert-danger">
-                    {{ $message }}
-                </div>
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
             @enderror
         </div>
-        <div class="form-group mb-2">
+        <div class="form-group">
             <label for="image">Image</label>
             @if ($oldImage)
                 <img src="{{ $oldImage }}" alt="channel image" class="img-preview">
@@ -40,9 +45,9 @@
                 <img src="{{ $image->temporaryUrl() }}" alt="preview" class="img-preview">
             @endif
             @error('image')
-            <div class="alert alert-danger">
-                {{ $message }}
-            </div>
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
             @enderror
         </div>
         <div class="form-group">
@@ -58,10 +63,5 @@
                 Saving...
             </div>
         </div>
-        @if( session()->has('message') )
-            <div class="alert alert-success">
-                {{ session('message') }}
-            </div>
-        @endif
     </form>
 </div>

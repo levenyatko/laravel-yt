@@ -6,6 +6,7 @@ use App\DTOs\Channel\EditChannelDTO;
 use App\Models\Channel;
 use App\Services\ChannelService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
 use Livewire\WithFileUploads;
@@ -46,6 +47,7 @@ class EditChannel extends Component
             ],
             'slug'        => [
                 'required',
+                'alpha_dash',
                 'min:4',
                 'max:255',
                 Rule::unique('channels', 'slug')->ignore($this->channel->id, 'id'),

@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="bg-primary text-white p-3 mb-5">
+<div class="bg-primary p-3 mb-5">
     <div class="container">
         <div class="d-flex align-items-center">
-            <img src="{{ empty($channel->image) ? 'https://i.pravatar.cc/300' : Storage::url( $channel->image ) }}" class="rounded-circle mr-3" height="100px;" width="100px;">
+            @include('partials.channel-image')
             <div class="p-2">
                 <h1 class="display-4">{{$channel->name}}</h1>
                 <p class="lead">{{$channel->description}}</p>

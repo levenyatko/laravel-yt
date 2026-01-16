@@ -62,7 +62,7 @@
                         </a>
                         <div class="flex-shrink-0 dropdown">
                             <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                                @include('partials.channel-image', ['size' => 'small'])
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                                 <li>

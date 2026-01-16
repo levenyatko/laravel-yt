@@ -6,3 +6,29 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+.channel-image {
+  width: 100px;
+  height: 100px;
+
+  &.small {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.form-group {
+  @extend .mb-3;
+  label {
+    @extend .mb-1;
+  }
+}
+
+.card {
+  border: none;
+  @extend .shadow;
+  .card-header {
+    background: transparent;
+    border: none;
+  }
+}
