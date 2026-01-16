@@ -32,3 +32,12 @@
     border: none;
   }
 }
+
+.form-control:focus {
+  border-color: #6e6e6e;
+}
+
+.img-preview {
+  max-width: 100px;
+  height: auto;
+}

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Channel extends Model
 {
@@ -33,4 +34,11 @@ class Channel extends Model
         return 'slug';
     }
 
+    public function getImageUrlAttribute()
+    {
+        if (!empty($this->attributes['image'])) {
+            return Storage::url('images/' . $this->attributes['image']);
+        }
+        return '';
+    }
 }

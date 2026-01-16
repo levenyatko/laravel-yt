@@ -1,7 +1,4 @@
 <div>
-    @if( $channel->image )
-        <img src="{{ Storage::url( $channel->image ) }}" alt="logo" class="img-preview mb-4">
-    @endif
     @if( session()->has('message') )
         <div class="alert alert-success">
             {{ session('message') }}
@@ -37,18 +34,17 @@
         </div>
         <div class="form-group">
             <label for="image">Image</label>
-            @if ($oldImage)
-                <img src="{{ $oldImage }}" alt="channel image" class="img-preview">
-            @endif
-            <input type="file" wire:model="image" id="image" class="form-control">
-            @if($image)
-                <img src="{{ $image->temporaryUrl() }}" alt="preview" class="img-preview">
-            @endif
+            <input type="file" wire:model="image" id="image" class="form-control mb-1 @error('image') is-invalid @enderror">
             @error('image')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
+            @if($image)
+                <img src="{{ $image->temporaryUrl() }}" alt="preview" class="img-preview">
+            @elseif($channel->image)
+                <img src="{{ $channel->image_url }}" alt="logo" class="img-preview">
+            @endif
         </div>
         <div class="form-group">
             <button type="submit"
