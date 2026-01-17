@@ -27,7 +27,6 @@ Route::middleware('auth')->group(function (){
     Route::get('/ch/{channel}/v', \App\Livewire\Video\AllVideos::class)->name('channel.view');
     Route::get('/ch/{channel}/v/create', \App\Livewire\Video\CreateVideo::class)->name('video.create');
     Route::get('/ch/{channel}/v/{video}/edit', \App\Livewire\Video\EditVideo::class)->name('video.edit');
-    Route::get('/ch/{channel}/v/{video}', \App\Livewire\Video\ShowVideo::class)->name('video.show');
 
 });
 
