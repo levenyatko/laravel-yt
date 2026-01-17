@@ -7,21 +7,23 @@
 
 namespace App\Services;
 
+use App\DTOs\Video\CreateVideoDTO;
 use App\DTOs\Video\EditVideoDTO;
+use App\Models\Channel;
 use App\Models\Video;
 use Illuminate\Support\Facades\Storage;
 
 class VideoService
 {
-    public function store($channel_videos, $video_file_path)
+    public function store(Channel $channel, CreateVideoDTO $createVideoData): Video
     {
-        return $channel_videos->create([
+        return $channel->videos()->create([
             'uid'         => uniqid(true),
-            'title'       => 'untitled',
-            'description' => '',
+            'title'       => $createVideoData->title,
+            'description' => $createVideoData->description,
             'duration'    => '',
             'visibility'  => Video::VISIBILITY_DEFAULT,
-            'path'        => $video_file_path
+            'path'        => $createVideoData->path,
         ]);
     }
 

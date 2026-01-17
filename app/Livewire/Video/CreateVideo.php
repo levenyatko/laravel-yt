@@ -50,7 +50,7 @@ class CreateVideo extends Component
         $path = $this->videoFile->store('videos-temp');
 
         $this->video = $this->service->store(
-            $this->channel->videos(),
+            $this->channel,
             CreateVideoDTO::createWithDefaults( explode('/', $path)[1] )
         );
 
