@@ -1,6 +1,8 @@
-@php(
-    $channel = \Illuminate\Support\Facades\Auth::user()->channel
-)
+@php
+    if (empty($channel)) {
+        $channel = Auth::user()->channel;
+    }
+@endphp
 @if($channel->image)
     <img src="{{ $channel->image_url }}" class="rounded-circle channel-image {{ $size ?? '' }}" alt="{{ $channel->name }}">
 @else

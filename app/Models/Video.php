@@ -38,9 +38,9 @@ class Video extends Model
     public function getThumbnailAttribute()
     {
         if ( $this->processed ) {
-            return '/videos/' . $this->uid . '/preview.png';
+            return 'videos/' . $this->uid . '/preview.png';
         }
-        return '/storage/images/video-placeholder.png';
+        return 'storage/images/video-placeholder.png';
     }
 
     public function getViewsCountAttribute()

@@ -3,6 +3,16 @@
         <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
     @endpush
     <div class="container-fluid">
+        @if(!$video->processed)
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center my-5">
+                    <div class="alert alert-warning">
+                        <h4 class="alert-heading">Lost Media?</h4>
+                        <p>This video is currently being processed. Please come back later.</p>
+                    </div>
+                </div>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 <div class="video-container">
@@ -10,10 +20,12 @@
                         <video controls preload="auto" id="yt-video"
                                class="video-js vjs-fill vjs-styles=defaults vjs-big-play-centered"
                                data-setup="{}"
-                               poster="{{ asset('videos/'. $video->uid . '/' . $video->thumbnail_image)}}"
+                               poster="{{asset($video->thumbnail)}}"
                         >
-                            <source src="{{ asset('videos/'. $video->uid . '/' . $video->processed_file)}}"
-                                    type="application/x-mpegURL" />
+                            @if($video->processed)
+                                <source src="{{ asset('videos/'. $video->uid . '/' . $video->processed_file)}}"
+                                        type="application/x-mpegURL" />
+                            @endif
                             <p class="vjs-no-js">
                                 To view this video please enable JavaScript, and consider upgrading to a
                                 web browser that
@@ -32,7 +44,6 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="">
                                 <h2 class="mt-4">{{ $video->title }}</h2>
-                                <p class="gray-text">{{ $video->viewsCount }} view(s) | {{$video->uploaded_date}}</p>
                             </div>
                         </div>
                     </div>
@@ -42,6 +53,16 @@
                         <div class="d-flex flex-row justify-content-between">
                             <livewire:channel.channel-info :channel="$video->channel" />
                             <livewire:video.voting :video="$video" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="p-3 mt-4 bg-primary rounded">
+                            <p class="gray-text m-0">{{ $video->viewsCount }} view(s) | {{$video->uploaded_date}}</p>
+                            <p class="m-0">
+                                {{ $video->description }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -71,3 +92,4 @@
             </script>
         @endpush
     </div>
+</div>

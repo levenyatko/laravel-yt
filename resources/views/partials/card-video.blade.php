@@ -2,7 +2,7 @@
 <div class="card-body p-2">
     <div class="d-flex align-items-start gap-2">
         <div>
-            @include('partials.channel-image', ['size' => 'small'])
+            @include('partials.channel-image', ['channel'=> $video->channel, 'size' => 'small'])
         </div>
         <div>
             <h4 class="m-0 mb-2">{{$video->title}}</h4>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Channel;
+use App\Models\Video;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -14,16 +15,18 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $videos = collect([]);
+
         if (Auth::check()) {
-            $channels = Auth::user()->subscribedChannels()->with(['videos' => function ($query) {
-                $query->where('visibility', 'public');
-            }])->get()->pluck('videos');
-        } else {
-            $channels = Channel::with(['videos' => function ($query) {
+            $videos = Auth::user()->subscribedChannels()->with(['videos' => function ($query) {
                 $query->where('visibility', 'public');
             }])->get()->pluck('videos');
         }
 
-        return view('home', compact('channels'));
+        if ($videos->isEmpty()) {
+            $videos = Video::query()->where('visibility', 'public')->get();
+        }
+
+        return view('home', compact('videos'));
     }
 }
