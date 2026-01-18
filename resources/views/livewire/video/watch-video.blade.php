@@ -43,7 +43,7 @@
                     <div class="col-md-12">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="">
-                                <h2 class="mt-4">{{ $video->title }}</h2>
+                                <h1 class="mt-4">{{ $video->title }}</h1>
                             </div>
                         </div>
                     </div>
@@ -58,15 +58,15 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="p-3 mt-4 bg-primary rounded">
+                        <div class="p-3 mt-4 bg-secondary rounded">
                             <p class="gray-text m-0">{{ $video->viewsCount }} view(s) | {{$video->uploaded_date}}</p>
                             <p class="m-0">
-                                {{ $video->description }}
+                                {!! nl2br(e($video->description)) !!}
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="my-5">
+                <div class="row mt-4">
                     <h4>{{$video->AllCommentsCount()}} Comment(s)</h4>
                     @auth
                         <div class="my-2">

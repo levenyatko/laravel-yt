@@ -1,8 +1,7 @@
 <div>
     <div class="d-flex align-items-center">
-        <img src="{{ Storage::url( auth()->user()->channel->image )}}" class="rounded-circle m-1" style="height: 40px;">
-
-        <input type="text" wire:model="body" class="my-2 comment-form-control" placeholder="Add a public comment...">
+        @include('partials.channel-image', ['size' => 'small'])
+        <input type="text" wire:model="body" class="ms-2 w-100 comment-form-control" placeholder="Add a public comment...">
     </div>
 
     <div class="d-flex justify-content-end align-items-center">

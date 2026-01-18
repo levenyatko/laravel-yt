@@ -1,7 +1,11 @@
 <div>
     <div class="btn-group voting-btn-group" role="group" aria-label="Voting">
         <button type="button"
-                class="btn btn-primary d-flex align-content-center @if($likeActive) btn-icon-filled @endif"
+                @class([
+                    'btn btn-primary d-flex align-content-center',
+                    'btn-primary' => $likeActive,
+                    'btn-secondary' => !$likeActive,
+                ])
                 wire:click.prevent="like"
             >
             <span class="material-symbols-outlined"
@@ -12,7 +16,11 @@
             <span class="ms-1" style="line-height: 1.5">{{$likesCount}}</span>
         </button>
         <button type="button"
-                class="btn btn-primary d-flex align-content-center  @if($dislikeActive) btn-icon-filled @endif"
+                @class([
+                    'btn btn-primary d-flex align-content-center',
+                    'btn-primary' => $dislikeActive,
+                    'btn-secondary' => !$dislikeActive,
+                ])
                 wire:click.prevent="dislike"
         >
             <span class="material-symbols-outlined"

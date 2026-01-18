@@ -64,7 +64,7 @@
                             <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                                 @include('partials.channel-image', ['size' => 'small'])
                             </a>
-                            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="z-index: 1000">
                                 <li>
                                     <a class="dropdown-item" href="{{ route('channel.index', ['channel' => Auth::user()->channel]) }}">
                                         {{ __('My channel') }}
