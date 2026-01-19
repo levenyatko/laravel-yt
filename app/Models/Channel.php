@@ -30,6 +30,11 @@ class Channel extends Model
         return $this->subscriptions->count();
     }
 
+    public function isOwnedBy(User $user): bool
+    {
+        return ($this->attributes['user_id'] === $user->id);
+    }
+
     public function getRouteKeyName() {
         return 'slug';
     }

@@ -51,7 +51,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="d-flex flex-row justify-content-between">
-                            <livewire:channel.channel-info :channel="$video->channel" />
+                            @include('partials.channel-info', ['channel' => $video->channel])
                             <livewire:video.voting :video="$video" />
                         </div>
                     </div>

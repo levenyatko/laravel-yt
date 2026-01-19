@@ -9,7 +9,7 @@ namespace App\Enums;
 
 enum VideoVisibility : string
 {
-    case Private = 'private';
-    case Public = 'public';
-    case Unlisted = 'unlisted';
+    case PRIVATE = 'private';
+    case PUBLIC = 'public';
+    case UNLISTED = 'unlisted';
 }

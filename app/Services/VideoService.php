@@ -27,21 +27,23 @@ class VideoService
         ]);
     }
 
-    public function update(Video &$video, EditVideoDTO $dto)
+    public function update(Video $video, EditVideoDTO $dto): Video
     {
-        $video->update([
+        return $video->update([
             'title'       => $dto->title,
             'description' => $dto->description,
             'visibility'  => $dto->visibility
         ]);
     }
 
-    public function delete(Video $video)
+    public function delete(Video $video): bool
     {
         $deleted = Storage::disk('videos')->deleteDirectory($video->uid);
 
         if ($deleted) {
-            $video->delete();
+            return (bool) $video->delete();
         }
+
+        return false;
     }
 }

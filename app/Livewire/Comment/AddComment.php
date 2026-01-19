@@ -39,8 +39,10 @@ class AddComment extends Component
 
     public function addComment()
     {
+        $this->validate();
+
         $this->service->store(
-            auth()->user()->comments(),
+            auth()->user(),
             new CreateCommentDTO($this->video->id, $this->body, $this->col)
         );
 

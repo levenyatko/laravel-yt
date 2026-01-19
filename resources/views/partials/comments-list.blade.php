@@ -3,11 +3,7 @@
         <div class="col-md-12 my-3" x-data="{ open: false , openReply:false}">
             <div class="row">
                 <div class="col-md-1 mr-3">
-                    <img class="rounded-circle"
-                         src="{{ Storage::url( $comment->user->channel->image )}}"
-                         alt="User avatar"
-                         style="max-width: 60px"
-                    >
+                    @include('partials.channel-image', ['channel' => $comment->user->channel, 'size' => 'small'])
                 </div>
                 <div class="col-md-11">
                     <h5 class="mt-0">

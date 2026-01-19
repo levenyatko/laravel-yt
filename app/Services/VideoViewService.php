@@ -12,7 +12,7 @@ use App\Models\VideoViews;
 
 class VideoViewService
 {
-    public function increase(VideoViewDTO $dto)
+    public function increase(VideoViewDTO $dto): void
     {
         VideoViews::updateOrCreate(
             [

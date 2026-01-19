@@ -11,7 +11,7 @@ class ChannelController extends Controller
     {
         $data = [
             'channel' => $channel,
-            'videos'  => $channel->videos()->where('visibility', 'public')->get()
+            'videos'  => $channel->videos()->published()->get()
         ];
         return view('channel.index', $data);
     }

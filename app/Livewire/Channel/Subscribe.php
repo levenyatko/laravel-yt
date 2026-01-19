@@ -7,15 +7,21 @@ use App\Models\Subscription;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class ChannelInfo extends Component
+class Subscribe extends Component
 {
     public Channel $channel;
 
     public $userSubscribed = false;
 
-    public function mount(Channel $channel)
+    public $btnClass = 'bg-primary';
+
+    public function mount(Channel $channel, string $style = 'default')
     {
         $this->channel = $channel;
+
+        if ('light' === $style) {
+            $this->btnClass = 'bg-white';
+        }
         if (Auth::check()) {
             if (auth()->user()->isSubscribedTo($this->channel)) {
                 $this->userSubscribed = true;
@@ -25,8 +31,7 @@ class ChannelInfo extends Component
 
     public function render()
     {
-        return view('livewire.channel.channel-info')
-            ->extends('layouts.app');
+        return view('livewire.channel.subscribe');
     }
 
     public function toggle()
@@ -46,5 +51,4 @@ class ChannelInfo extends Component
             $this->userSubscribed = true;
         }
     }
-
 }

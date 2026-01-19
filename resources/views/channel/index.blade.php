@@ -9,6 +9,7 @@
                 <h1 class="display-4">{{$channel->name}}</h1>
                 <p class="lead">{{$channel->description}}</p>
                 <p>{{ $channel->subscribers() }} Subscribers</p>
+                <livewire:channel.subscribe :channel="$channel" style="light" />
             </div>
         </div>
     </div>

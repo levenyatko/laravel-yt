@@ -62,7 +62,7 @@
                         </a>
                         <div class="flex-shrink-0 dropdown">
                             <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                                @include('partials.channel-image', ['size' => 'small'])
+                                @include('partials.channel-image', ['channel' => Auth::user()->channel, 'size' => 'small'])
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="z-index: 1000">
                                 <li>

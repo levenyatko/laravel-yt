@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\VideoVisibility;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +18,7 @@ class Video extends Model
         'visibility' => VideoVisibility::class
     ];
 
-    public const VISIBILITY_DEFAULT = VideoVisibility::Private;
+    public const VISIBILITY_DEFAULT = VideoVisibility::PRIVATE;
 
     public function channel() {
         return $this->belongsTo(Channel::class);
@@ -82,8 +83,13 @@ class Video extends Model
         return  $this->hasMany(Comment::class)->count();
     }
 
+    public function scopeVisibility(Builder $query, VideoVisibility $visibility): void
+    {
+        $query->where('visibility', $visibility);
+    }
+
     public function scopePublished(Builder $query): void
     {
-        $query->where('visibility', VideoVisibility::Public);
+        $query->visibility(VideoVisibility::PUBLIC);
     }
 }
