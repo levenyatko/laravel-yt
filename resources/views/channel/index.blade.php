@@ -31,17 +31,43 @@
 
 
 <div class="container">
-    <div class="row my-4">
-        @foreach ($videos as $video)
-            <div class="col-12 col-md-6 col-lg-4">
-                <a href="{{ route('video.watch', $video)}}" class="card-link">
-                    <div class="card mb-4" style="width: 333px; border:none;">
-                        @include('partials.card-video')
-                    </div>
-                </a>
-
-            </div>
-        @endforeach
-    </div>
+    @if (!$subscribedChannels->isEmpty())
+        <div class="row my-4">
+            <h4>My subscriptions</h4>
+            @foreach ($subscribedChannels as $subscribedChannel)
+                <div class="col-12 col-md-4">
+                    @include('partials.card-channel', ['channel' => $subscribedChannel])
+                </div>
+            @endforeach
+        </div>
+    @endif
+    @if (!$favourites->isEmpty())
+        <div class="row my-4">
+            <h4>My favourites</h4>
+            @foreach ($favourites as $video)
+                <div class="col-12 col-md-4">
+                    <a href="{{ route('video.watch', $video)}}" class="card-link">
+                        <div class="card mb-4" style="width: 333px; border:none;">
+                            @include('partials.card-video')
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    @endif
+    @if (!$videos->isEmpty())
+        <div class="row my-4">
+            <h4>Videos</h4>
+            @foreach ($videos as $video)
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a href="{{ route('video.watch', $video)}}" class="card-link">
+                        <div class="card mb-4" style="width: 333px; border:none;">
+                            @include('partials.card-video')
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    @endif
 </div>
 @endsection

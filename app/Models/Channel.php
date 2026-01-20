@@ -30,8 +30,11 @@ class Channel extends Model
         return $this->subscriptions->count();
     }
 
-    public function isOwnedBy(User $user): bool
+    public function isOwnedBy(?User $user): bool
     {
+        if (is_null($user)) {
+            return false;
+        }
         return ($this->attributes['user_id'] === $user->id);
     }
 
